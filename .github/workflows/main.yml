@@ -24,7 +24,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ninja-build cmake
 
-      - name: Cai dat Android SDK/NDK
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Cai dat Android SDK NDK
         run: |
           yes | sdkmanager --licenses
           sdkmanager "platforms;android-35" "build-tools;35.0.0" "ndk;26.1.10909125"
