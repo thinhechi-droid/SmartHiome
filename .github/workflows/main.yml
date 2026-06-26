@@ -19,7 +19,7 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Cai dat Ninja va cong cu build
+      - name: Cai dat Ninja va CMake
         run: |
           sudo apt-get update
           sudo apt-get install -y ninja-build cmake
@@ -27,7 +27,7 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Cai dat Android SDK NDK
+      - name: Cai dat Android SDK va NDK
         run: |
           yes | sdkmanager --licenses
           sdkmanager "platforms;android-35" "build-tools;35.0.0" "ndk;26.1.10909125"
@@ -42,10 +42,19 @@ jobs:
           target: android
           arch: android_arm64_v8a
 
+      - name: Kiem tra cau truc source
+        run: |
+          echo "Dang o thu muc:"
+          pwd
+          echo "Danh sach file:"
+          ls -la
+          echo "Tim CMakeLists.txt:"
+          find . -name "CMakeLists.txt" -print
+
       - name: Cau hinh CMake cho Android
         run: |
           "$QT_ROOT_DIR/bin/qt-cmake" \
-            -S SmartHomeNE_Source \
+            -S . \
             -B build-android \
             -GNinja \
             -DANDROID_SDK_ROOT="$ANDROID_SDK_ROOT" \
